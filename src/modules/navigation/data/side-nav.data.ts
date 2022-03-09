@@ -11,7 +11,7 @@ export const sideNavSections: SideNavSection[] = [
     },
     {
         text: 'ADDONS',
-        items: ['charts', 'tables'],
+        items: ['charts', 'tables','lists'],
     },
 ];
 
@@ -84,5 +84,10 @@ export const sideNavItems: SideNavItems = {
         icon: 'table',
         text: 'Tables',
         link: '/tables',
+    },
+    lists: {
+        icon: 'table',
+        text: 'lists',
+        link: '/lists',
     },
 };

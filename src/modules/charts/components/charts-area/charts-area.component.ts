@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import {
     AfterViewInit,
     ChangeDetectionStrategy,
@@ -6,7 +7,10 @@ import {
     OnInit,
     ViewChild,
 } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ApiService } from '@app/shared/api.service';
 import { Chart } from 'chart.js';
+import { FormMOdels } from './charts.modal';
 
 @Component({
     selector: 'sb-charts-area',
@@ -15,11 +19,37 @@ import { Chart } from 'chart.js';
     styleUrls: ['charts-area.component.scss'],
 })
 export class ChartsAreaComponent implements OnInit, AfterViewInit {
+    formvalue!:FormGroup;
+    FormCrud:FormMOdels = new FormMOdels();
     @ViewChild('myAreaChart') myAreaChart!: ElementRef<HTMLCanvasElement>;
     chart!: Chart;
 
-    constructor() {}
-    ngOnInit() {}
+    constructor( private formbuilder : FormBuilder, private Api:ApiService) {}
+    ngOnInit() {
+        this.formvalue = this.formbuilder.group({
+            Name:[""],
+            Email:[""],
+            Phone:[],
+        })
+    }
+    postCrudData_to_API(){
+        this.FormCrud.Name=this.formvalue.value.Name;
+        this.FormCrud.Email=this.formvalue.value.Email;
+        this.FormCrud.Phone=this.formvalue.value.Phone;
+        this.Api.postCrudData(this.FormCrud).subscribe(
+            (res) => {
+              this.formvalue.reset();
+              let status = res.Msg;
+              alert(status)
+            //   this.router.navigate(['/dashboard'])
+            },
+            (err:HttpErrorResponse)=>{
+              let error = err.error.Msg;
+              alert(error)
+              }
+          );
+    }
+
 
     ngAfterViewInit() {
         this.chart = new Chart(this.myAreaChart.nativeElement, {
