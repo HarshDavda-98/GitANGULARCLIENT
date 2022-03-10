@@ -1,62 +1,82 @@
 import {
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
+    // ChangeDetectionStrategy,
+    // ChangeDetectorRef,
     Component,
     Input,
     OnInit,
-    QueryList,
-    ViewChildren,
+    OnDestroy,
+    // QueryList,
+    // ViewChildren,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { ApiService } from '@app/shared/api.service';
-import { SBSortableHeaderDirective, SortEvent } from '@modules/tables/directives';
+// import { SBSortableHeaderDirective, SortEvent } from '@modules/tables/directives';
 import { Country } from '@modules/tables/models';
 import { CountryService } from '@modules/tables/services';
-import { Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
+// import { Observable } from 'rxjs';
 
 @Component({
     selector: 'sb-ng-bootstrap-table',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    // changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './ng-bootstrap-table.component.html',
     styleUrls: ['ng-bootstrap-table.component.scss'],
 })
 export class NgBootstrapTableComponent implements OnInit {
     @Input() pageSize = 4;
 
-    countries$!: Observable<any>;
+    // countries$!: Observable<any>;  
+    // subscribe!:Subscription;
     crudlist!:any;
-    // countries$!:any;
-    total$!: Observable<number>;
-    sortedColumn!: string;
-    sortedDirection!: string;
+    countries!:any;
+    // total$!: Observable<number>;
+    // sortedColumn!: string;
+    // sortedDirection!: string;
 
-    @ViewChildren(SBSortableHeaderDirective) headers!: QueryList<SBSortableHeaderDirective>;
+    // @ViewChildren(SBSortableHeaderDirective) headers!: QueryList<SBSortableHeaderDirective>;
 
     constructor(
-        public countryService: CountryService,
-        private changeDetectorRef: ChangeDetectorRef,
-        private Api :ApiService
+        // public countryService: CountryService,
+        // private changeDetectorRef: ChangeDetectorRef,
+        private Api :ApiService,
+         private route:Router
     ) {}
     ngOnInit() {
-        this.countryService.pageSize = this.pageSize;
-        this.countries$ = this.countryService.countries$;
-        this.total$ = this.countryService.total$;
+  
+        // this.countryService.pageSize = this.pageSize;
+        // this.countries$ = this.countryService.countries$;
+        // this.total$ = this.countryService.total$;
         this.getCrudData();
     }
     getCrudData(){
         this.Api.GetCrudDetails().subscribe(
           (res)=>{
-            this.countries$ = res;
+            this.crudlist = res;
           },
           (err) => {
             console.log('for get data', err);
           }
         )
       }
-    onSort({ column, direction }: SortEvent) {
-        this.sortedColumn = column;
-        this.sortedDirection = direction;
-        this.countryService.sortColumn = column;
-        this.countryService.sortDirection = direction;
-        this.changeDetectorRef.detectChanges();
-    }
+      DeleteData(_id:any){
+        confirm("Are you sure to delete the data....")
+        this.Api.DeleteCrudData(_id).subscribe(
+          res =>{
+            alert(res.Msg); 
+            setTimeout(() => {
+              alert("Updated")
+              this.getCrudData();
+            }, 1000);
+          },
+          err =>{
+            alert(err.error.Msg);
+          }
+        )
+      }  
+      EditData(country:any){
+        this.Api.setList(country);
+        // console.log(country);
+        sessionStorage.setItem('status','true');
+        this.route.navigate(['CrudForm']);
+      }
 }

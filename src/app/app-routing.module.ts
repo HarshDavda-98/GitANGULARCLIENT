@@ -8,6 +8,10 @@ const routes: Routes = [
         path: '',
         pathMatch: 'full',
         redirectTo: '/dashboard',
+    },{
+        path:'lists',
+        canActivate:[AuthGuard],
+        component:ListsComponent,
     },
     {
         path: 'CrudForm', 

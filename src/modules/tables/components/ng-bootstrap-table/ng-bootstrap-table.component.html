@@ -2,35 +2,31 @@
     <!-- <div class="form-group form-inline">Full text search: <input class="form-control ml-2" type="text" name="searchTerm"
             [(ngModel)]="countryService.searchTerm" /><span class="ml-3"
             *ngIf="countryService.loading$ | async">Loading...</span></div> -->
-    <table class="table table-striped">
-        <thead>
-            <tr><th>_id</th>
-                <th scope="col" sbSortable="name" (sort)="onSort($event)"><span>Name</span>
+    <table class="table border">
+        <thead class="bg-dark text-light" >
+            <tr class="text-center" >
+                <th class="border" scope="col" sbSortable="name" ><span>Name</span>
                     <sb-sort-icon *ngIf='sortedColumn === "name"' [direction]="sortedDirection"></sb-sort-icon>
                 </th>
-                <th scope="col" sbSortable="area" (sort)="onSort($event)"><span>Email</span>
+                <th  class="border" scope="col" sbSortable="area" ><span>Email</span>
                     <sb-sort-icon *ngIf='sortedColumn === "area"' [direction]="sortedDirection"></sb-sort-icon>
                 </th>
-                <th scope="col" sbSortable="population" (sort)="onSort($event)"><span>Phone</span>
+                <th  class="border" scope="col" sbSortable="population"><span>Phone</span>
                     <sb-sort-icon *ngIf='sortedColumn === "population"' [direction]="sortedDirection"></sb-sort-icon>
                 </th>
-                <th scope="col"> <span>Action</span> </th>
+                <th  class="border" scope="col"> <span>Action</span> </th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let country of countries$">
-                <td>{{country._id}}</td>
-                <td class=""><span  ><h3>{{country.Name}}</h3></span><ngb-highlight [result]="country.name" [term]="countryService.searchTerm">
-                    </ngb-highlight>
+            <tr *ngFor="let country of crudlist">
+                <td class="pt-4 border"><span>{{country.Name}}</span>
                 </td>
-                <td><span><h3>{{country.Email}}</h3></span><ngb-highlight [result]="country.area | number" [term]="countryService.searchTerm">
-                    </ngb-highlight>
+                
+                <td class="pt-4 border" ><span>{{country.Email}}</span>
                 </td>
-                <td><span><h3>{{country.Phone}}</h3></span><ngb-highlight [result]="country.population | number"
-                        [term]="countryService.searchTerm"></ngb-highlight>
-                </td>
-                <td class="text-center"><button class="btn btn-success  ">Edits</button>
-                    <button class="btn btn-danger mx-2">Delete</button>
+                <td class="pt-4 border" ><span>{{country.Phone}}</span> </td>
+                <td class="text-center"><button (click)="EditData(country)"  class="btn btn-success m-2 ">Edits</button>
+                    <button (click)="DeleteData(country._id)" class="btn btn-danger m-2">Delete</button>
                 </td>
             </tr>
         </tbody>
