@@ -17,7 +17,7 @@ export class ApiService {
   // for getting signup 
   postData(data: any) {
 
-    return this.http.post<any>("http://localhost:1922/signup", data, {
+    return this.http.post<any>("https://angulartemplatecrud.herokuapp.com/signup", data, {
       headers:
         new HttpHeaders(
           {
@@ -32,7 +32,7 @@ export class ApiService {
     }));
   }
   getdataById(id:any){
-    return this.http.get<any>(`http://localhost:1922/signup/CrudDetails/${id}`, {
+    return this.http.get<any>(`https://angulartemplatecrud.herokuapp.com/signup/CrudDetails/${id}`, {
       headers:
         new HttpHeaders(
           {
@@ -48,7 +48,7 @@ export class ApiService {
   }
   // for getting loggin 
   postDataLogin(data: any) {
-    return this.http.post<any>("http://localhost:1922/signup/login", data, {
+    return this.http.post<any>("https://angulartemplatecrud.herokuapp.com/signup/login", data, {
       headers:
         new HttpHeaders(
           {
@@ -64,7 +64,7 @@ export class ApiService {
   }
   // for entering Data through form 
   postCrudData(data: any) {
-    return this.http.post<any>("http://localhost:1922/signup/CrudDetails", data, {
+    return this.http.post<any>("https://angulartemplatecrud.herokuapp.com/signup/CrudDetails", data, {
       headers:
         new HttpHeaders(
           {
@@ -81,7 +81,7 @@ export class ApiService {
 
   // for getting crud data for list
   GetCrudDetails() {
-    return this.http.get<any>("http://localhost:1922/signup/CrudDetails", {
+    return this.http.get<any>("https://angulartemplatecrud.herokuapp.com/signup/CrudDetails", {
       headers:
         new HttpHeaders(
           {
@@ -96,7 +96,7 @@ export class ApiService {
     }));
   }
   DeleteCrudData(_id: string) {
-    return this.http.delete<any>(`http://localhost:1922/signup/CrudDetails/${_id}`, {
+    return this.http.delete<any>(`https://angulartemplatecrud.herokuapp.com/signup/CrudDetails/${_id}`, {
       headers:
         new HttpHeaders(
           {
@@ -111,7 +111,7 @@ export class ApiService {
     }));
   }
   putData(data:any,_id:any){
-    return this.http.put<any>(`http://localhost:1922/signup/CrudDetails/${_id}`,data,{
+    return this.http.put<any>(`https://angulartemplatecrud.herokuapp.com/signup/CrudDetails/${_id}`,data,{
       headers:
         new HttpHeaders(
           {
