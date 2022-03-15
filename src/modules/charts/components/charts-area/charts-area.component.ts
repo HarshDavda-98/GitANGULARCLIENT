@@ -91,6 +91,10 @@ export class ChartsAreaComponent implements OnInit {
           (res) => {
             console.log("From the edit method",res);
             this.formvalue.reset();
+            sessionStorage.setItem('Phone',"")
+            sessionStorage.setItem('Email',"")
+            sessionStorage.setItem('Name',"")
+
           }
         );
       }
