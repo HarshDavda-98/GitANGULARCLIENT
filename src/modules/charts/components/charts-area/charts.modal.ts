@@ -2,5 +2,5 @@ export class FormMOdels {
     Name: string = '';
     Email: string = '';
     Phone: Number = 91;
-    _id:string='';
+    _id:any=0;
   }

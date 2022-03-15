@@ -5,6 +5,7 @@ import { SBRouteData } from '@modules/navigation/models';
 
 /* Module */
 import { ChartsModule } from './charts.module';
+import { ChartsAreaComponent } from './components';
 
 /* Containers */
 import * as chartsContainers from './containers';
@@ -18,6 +19,7 @@ export const ROUTES: Routes = [
         path: '',
         canActivate: [],
         component: chartsContainers.ChartsComponent,
+
         data: {
             title: 'Charts - SB Admin Angular',
             breadcrumbs: [
@@ -31,6 +33,11 @@ export const ROUTES: Routes = [
                 },
             ],
         } as SBRouteData,
+    },
+    {
+        path: 'CrudForm/:id',
+        component: ChartsAreaComponent,
+
     },
 ];
 

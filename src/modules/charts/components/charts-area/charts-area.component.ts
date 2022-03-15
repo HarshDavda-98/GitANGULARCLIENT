@@ -10,6 +10,7 @@ import {
     OnDestroy
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '@app/shared/api.service';
 import { Subscription } from 'rxjs';
 // import { Chart } from 'chart.js';
@@ -30,28 +31,40 @@ export class ChartsAreaComponent implements OnInit {
     @ViewChild('myAreaChart') myAreaChart!: ElementRef<HTMLCanvasElement>;
     chart!: Chart;
 
-    constructor(private formbuilder: FormBuilder, private Api: ApiService) { }
+    constructor(private formbuilder: FormBuilder, private Api: ApiService,private activateRoute: ActivatedRoute) {
+        this.activateRoute.params.subscribe(resid=>{
+            // console.log('idwe====>>',resid['id'])
+          })
+     }
     ngOnInit() {
         this.formvalue = this.formbuilder.group({ Name: [""], Email: [""], Phone: [] })
         this.Api.Subject_list.subscribe((data) => {
             this.valuetoedit = data;
+            console.log(data);
+            this.Edit();
             setTimeout(() => {
-                this.Edit();
-            }, 3000);
-            // return data
+                this.ClickMe();
+            },1000);
         });
     }
     Edit() {
-        this.formvalue.controls['Name'].setValue("Harsh")
-        // console.log(this.valuetoedit.Email)
-        // this.formvalue.controls['Phone'].setValue(this.valuetoedit.Phone);
-        // this.FormCrud._id = this.valuetoedit._id;
-        console.log("Form input")
+        console.log(this.valuetoedit.Name)
+        sessionStorage.setItem('Name',this.valuetoedit.Name);
+        sessionStorage.setItem('Email',this.valuetoedit.Email);
+        sessionStorage.setItem('Phone',this.valuetoedit.Phone);
+        sessionStorage.setItem('Id',this.valuetoedit._id);
     }
     // ngOnDestroy(){
     //     this.subscribe.unsubscribe();
     // }
-    
+    ClickMe(){
+        this.formvalue.setValue({
+            Name: sessionStorage.getItem('Name'),
+            Email: sessionStorage.getItem('Email'),
+            Phone: sessionStorage.getItem('Phone'),
+
+        })
+    }
     postCrudData_to_API() {
         this.FormCrud.Name = this.formvalue.value.Name;
         this.FormCrud.Email = this.formvalue.value.Email;
@@ -69,5 +82,17 @@ export class ChartsAreaComponent implements OnInit {
             }
         );
     }
+    EditByApi() {
+        this.FormCrud.Name = this.formvalue.value.Name;
+        this.FormCrud.Phone = this.formvalue.value.Mobile;
+        this.FormCrud.Email = this.formvalue.value.Email;
+        this.FormCrud._id = sessionStorage.getItem('Id');
+        this.Api.putData(this.FormCrud, this.FormCrud._id).subscribe(
+          (res) => {
+            console.log("From the edit method",res);
+            this.formvalue.reset();
+          }
+        );
+      }
    
 }

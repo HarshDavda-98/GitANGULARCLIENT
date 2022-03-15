@@ -10,7 +10,7 @@ export class ApiService {
   
   constructor(private http: HttpClient) { }
   setList(country:any){
-    console.log(country);
+    // console.log(country);
     this.Subject_list.next(country);
   }
 
@@ -31,7 +31,21 @@ export class ApiService {
       return res;
     }));
   }
-
+  getdataById(id:any){
+    return this.http.get<any>(`http://localhost:1922/signup/CrudDetails/${id}`, {
+      headers:
+        new HttpHeaders(
+          {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'MyClientCert': '',        // This is empty
+            'MyToken': ''              // This is empty
+          }
+        )
+    }).pipe(map((res: any) => {
+      return res;
+    }));
+  }
   // for getting loggin 
   postDataLogin(data: any) {
     return this.http.post<any>("http://localhost:1922/signup/login", data, {
@@ -96,7 +110,7 @@ export class ApiService {
       return res;
     }));
   }
-  putData(data:any,_id:string){
+  putData(data:any,_id:any){
     return this.http.put<any>(`http://localhost:1922/signup/CrudDetails/${_id}`,data,{
       headers:
         new HttpHeaders(

@@ -59,7 +59,7 @@ export class NgBootstrapTableComponent implements OnInit {
         )
       }
       DeleteData(_id:any){
-        confirm("Are you sure to delete the data....")
+        confirm("Are you sure to delete the data....");
         this.Api.DeleteCrudData(_id).subscribe(
           res =>{
             alert(res.Msg); 
@@ -74,8 +74,8 @@ export class NgBootstrapTableComponent implements OnInit {
         )
       }  
       EditData(country:any){
-        this.Api.setList(country);
         // console.log(country);
+        this.Api.setList(country);
         sessionStorage.setItem('status','true');
         this.route.navigate(['CrudForm']);
       }
